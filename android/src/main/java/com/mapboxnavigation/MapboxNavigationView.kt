@@ -713,7 +713,6 @@ class MapboxNavigationView(private val context: ThemedReactContext): FrameLayout
         .language(locale.language)
         .steps(true)
         .voiceInstructions(true)
-        .profile("cycling")
         .voiceUnits(distanceUnit)
         .build(),
       object : NavigationRouterCallback {
