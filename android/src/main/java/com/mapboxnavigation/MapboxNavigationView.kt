@@ -257,14 +257,31 @@ class MapboxNavigationView(private val context: ThemedReactContext): FrameLayout
    * for the most common Mapbox navigation related maps. You should consider if this should be
    * changed for your use case especially if you are using a custom map style.
    */
+//  private val routeLineViewOptions: MapboxRouteLineViewOptions by lazy {
+//    MapboxRouteLineViewOptions.Builder(context)
+//      /**
+//       * Route line related colors can be customized via the [RouteLineColorResources]. If using the
+//       * default colors the [RouteLineColorResources] does not need to be set as seen here, the
+//       * defaults will be used internally by the builder.
+//       */
+//      .routeLineColorResources(RouteLineColorResources.Builder().build())
+//      .routeLineBelowLayerId("road-label-navigation")
+//      .build()
+//  }
   private val routeLineViewOptions: MapboxRouteLineViewOptions by lazy {
     MapboxRouteLineViewOptions.Builder(context)
       /**
-       * Route line related colors can be customized via the [RouteLineColorResources]. If using the
-       * default colors the [RouteLineColorResources] does not need to be set as seen here, the
-       * defaults will be used internally by the builder.
+       * Customize route line colors using RouteLineColorResources.
+       * You can provide custom colors for the route line, alternative routes, and maneuver instructions.
        */
-      .routeLineColorResources(RouteLineColorResources.Builder().build())
+      .routeLineColorResources(
+        RouteLineColorResources.Builder()
+          .routeLineColor(Color.parseColor("#E84C23"))  // Main route line color
+          .routeLineCasingColor(Color.parseColor("#C70039"))  // Color for the route casing (outline)
+          .routeLineAlternativeColor(Color.parseColor("#900C3F"))  // Color for alternate routes
+          .routeLineManeuverColor(Color.parseColor("#DAF7A6"))  // Color for maneuver instructions
+          .build()
+      )
       .routeLineBelowLayerId("road-label-navigation")
       .build()
   }
@@ -696,6 +713,7 @@ class MapboxNavigationView(private val context: ThemedReactContext): FrameLayout
         .language(locale.language)
         .steps(true)
         .voiceInstructions(true)
+        .profile("cycling")
         .voiceUnits(distanceUnit)
         .build(),
       object : NavigationRouterCallback {

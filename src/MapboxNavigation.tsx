@@ -7,11 +7,11 @@ import {
   StyleSheet,
   Text,
   View,
+  ActivityIndicator
 } from 'react-native';
 
 import type { MapboxNavigationProps } from './types';
 import MapboxNavigationView from './MapboxNavigationViewNativeComponent';
-
 // import MapboxNavigationNativeComponent, {
 //   Commands,
 // } from './MapboxNavigationViewNativeComponent';
@@ -19,9 +19,9 @@ import MapboxNavigationView from './MapboxNavigationViewNativeComponent';
 const permissions: Array<Permission> =
   Platform.OS === 'android' && Platform.Version >= 33
     ? [
-        'android.permission.ACCESS_FINE_LOCATION',
-        'android.permission.POST_NOTIFICATIONS',
-      ]
+      'android.permission.ACCESS_FINE_LOCATION',
+      'android.permission.POST_NOTIFICATIONS',
+    ]
     : ['android.permission.ACCESS_FINE_LOCATION'];
 
 type MapboxNavigationState = {
@@ -66,7 +66,7 @@ class MapboxNavigation extends React.Component<
       if (
         permissions.length > 1 &&
         result[permissions[1] as ResultKey] !==
-          PermissionsAndroid.RESULTS.GRANTED
+        PermissionsAndroid.RESULTS.GRANTED
       ) {
         const errorMessage = 'Notification permission is not granted.';
         console.warn(errorMessage);
@@ -92,7 +92,13 @@ class MapboxNavigation extends React.Component<
         : {};
       return (
         <View style={[this.props.style, overiteViewStyle]}>
-          <Text style={[styles.message, overiteTextStyle]}>Loading...</Text>
+          <Text style={[styles.message, overiteTextStyle]}>
+            <ActivityIndicator
+              size="large"
+              color="#E84C23"
+              style={{ justifyContent: 'center', alignContent: 'center', alignItems: 'center', flex: 1 }}
+            />
+          </Text>
         </View>
       );
     }
