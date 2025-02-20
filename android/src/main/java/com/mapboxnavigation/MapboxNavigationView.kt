@@ -688,7 +688,7 @@ class MapboxNavigationView(private val context: ThemedReactContext): FrameLayout
 
     mapboxNavigation?.requestRoutes(
       RouteOptions.builder()
-        .applyDefaultNavigationOptions()
+        .applyDefaultNavigationOptions(DirectionsCriteria.PROFILE_CYCLING)
         .applyLanguageAndVoiceUnitOptions(context)
         .coordinatesList(coordinates)
         .waypointIndicesList(indices)
