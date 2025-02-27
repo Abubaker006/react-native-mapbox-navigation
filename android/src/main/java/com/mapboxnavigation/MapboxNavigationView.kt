@@ -503,7 +503,7 @@ class MapboxNavigationView(private val context: ThemedReactContext): FrameLayout
     binding.mapView.mapboxMap.setCamera(initialCameraOptions)
 
     // Start Navigation
-    startNavigation()
+//    startNavigation()
 
     // set the animations lifecycle listener to ensure the NavigationCamera stops
     // automatically following the user location when the map is interacted with
@@ -572,9 +572,16 @@ class MapboxNavigationView(private val context: ThemedReactContext): FrameLayout
     )
 
     // load map style
-    binding.mapView.mapboxMap.loadStyle(NavigationStyles.NAVIGATION_DAY_STYLE) {
-      // Ensure that the route line related layers are present before the route arrow
-      routeLineView.initializeLayers(it)
+//    binding.mapView.mapboxMap.loadStyle(NavigationStyles.NAVIGATION_DAY_STYLE) {
+//      // Ensure that the route line related layers are present before the route arrow
+//      routeLineView.initializeLayers(it)
+//    }
+    binding.mapView.mapboxMap.loadStyle(NavigationStyles.NAVIGATION_DAY_STYLE) { style ->
+      //Ensure route line layers are initialized
+      routeLineView.initializeLayers(style)
+
+      //initialize location puck
+      startNavigation()
     }
 
     // initialize view interactions
