@@ -616,14 +616,24 @@ class MapboxNavigationView(private val context: ThemedReactContext): FrameLayout
     }
   }
 
-  private fun onDestroy() {
-    maneuverApi.cancel()
-    routeLineApi.cancel()
-    routeLineView.cancel()
-    speechApi.cancel()
-    voiceInstructionsPlayer?.shutdown()
-    mapboxNavigation?.stopTripSession()
-  }
+//  private fun onDestroy() {
+//    maneuverApi.cancel()
+//    routeLineApi.cancel()
+//    routeLineView.cancel()
+//    speechApi.cancel()
+//    voiceInstructionsPlayer?.shutdown()
+//    mapboxNavigation?.stopTripSession()
+//  }
+private fun onDestroy() {
+  maneuverApi.cancel()
+  routeLineApi.cancel()
+  routeLineView.cancel()
+  speechApi.cancel()
+  voiceInstructionsPlayer?.shutdown()
+  mapboxNavigation?.stopTripSession()
+  binding.mapView.onDestroy() // Clean up MapView resources
+  MapboxNavigationProvider.destroy() // Optional: Destroy singleton if not needed elsewhere
+}
 
   private fun startNavigation() {
     // initialize location puck
@@ -667,6 +677,23 @@ class MapboxNavigationView(private val context: ThemedReactContext): FrameLayout
         .getJSModule(RCTEventEmitter::class.java)
         .receiveEvent(id, "onArrive", event)
     }
+  }
+
+  fun onStart() {
+    binding.mapView.onStart()
+  }
+
+  fun onResume() {
+    binding.mapView.onResume()
+    navigationCamera.requestNavigationCameraToFollowing() // Ensure camera follows on resume
+  }
+
+  fun onPause() {
+    binding.mapView.onPause()
+  }
+
+  fun onStop() {
+    binding.mapView.onStop()
   }
 
   override fun requestLayout() {
@@ -757,23 +784,32 @@ class MapboxNavigationView(private val context: ThemedReactContext): FrameLayout
     findRoute(coordinatesList)
   }
 
-  override fun onDetachedFromWindow() {
-    super.onDetachedFromWindow()
-    mapboxNavigation?.unregisterRoutesObserver(routesObserver)
-    mapboxNavigation?.unregisterArrivalObserver(arrivalObserver)
-    mapboxNavigation?.unregisterLocationObserver(locationObserver)
-    mapboxNavigation?.unregisterRouteProgressObserver(routeProgressObserver)
-    mapboxNavigation?.unregisterVoiceInstructionsObserver(voiceInstructionsObserver)
-
-    // Clear routs and end
-    mapboxNavigation?.setNavigationRoutes(listOf())
-
-    // hide UI elements
-    binding.soundButton.visibility = View.INVISIBLE
-    binding.maneuverView.visibility = View.INVISIBLE
-    binding.routeOverview.visibility = View.INVISIBLE
-    binding.tripProgressCard.visibility = View.INVISIBLE
-  }
+//  override fun onDetachedFromWindow() {
+//    super.onDetachedFromWindow()
+//    mapboxNavigation?.unregisterRoutesObserver(routesObserver)
+//    mapboxNavigation?.unregisterArrivalObserver(arrivalObserver)
+//    mapboxNavigation?.unregisterLocationObserver(locationObserver)
+//    mapboxNavigation?.unregisterRouteProgressObserver(routeProgressObserver)
+//    mapboxNavigation?.unregisterVoiceInstructionsObserver(voiceInstructionsObserver)
+//
+//    // Clear routs and end
+//    mapboxNavigation?.setNavigationRoutes(listOf())
+//
+//    // hide UI elements
+//    binding.soundButton.visibility = View.INVISIBLE
+//    binding.maneuverView.visibility = View.INVISIBLE
+//    binding.routeOverview.visibility = View.INVISIBLE
+//    binding.tripProgressCard.visibility = View.INVISIBLE
+//  }
+override fun onDetachedFromWindow() {
+  super.onDetachedFromWindow()
+  binding.mapView.onStop() // Stop MapView rendering
+  mapboxNavigation?.unregisterRoutesObserver(routesObserver)
+  mapboxNavigation?.unregisterArrivalObserver(arrivalObserver)
+  mapboxNavigation?.unregisterRouteProgressObserver(routeProgressObserver)
+  mapboxNavigation?.unregisterLocationObserver(locationObserver)
+  mapboxNavigation?.unregisterVoiceInstructionsObserver(voiceInstructionsObserver)
+}
 
   private fun sendErrorToReact(error: String?) {
     val event = Arguments.createMap()
@@ -826,5 +862,18 @@ class MapboxNavigationView(private val context: ThemedReactContext): FrameLayout
 
   fun setShowCancelButton(show: Boolean) {
     binding.stop.visibility = if (show) View.VISIBLE else View.INVISIBLE
+  }
+
+  override fun onAttachedToWindow() {
+    super.onAttachedToWindow()
+    binding.mapView.onStart()
+    if (mapboxNavigation?.getNavigationRoutes()?.isNotEmpty() == true) {
+      binding.soundButton.visibility = View.VISIBLE
+      binding.routeOverview.visibility = View.VISIBLE
+      binding.tripProgressCard.visibility = View.VISIBLE
+      startRoute()
+    } else {
+      initNavigation()
+    }
   }
 }

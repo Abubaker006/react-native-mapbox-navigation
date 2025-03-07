@@ -20,8 +20,15 @@ class MapboxNavigationViewManager(private var reactContext: ReactApplicationCont
   }
 
   override fun onDropViewInstance(view: MapboxNavigationView) {
-    view.onDropViewInstance()
+    view.onStop() // Pause rendering before cleanup
+    view.onDropViewInstance() // Full cleanup
     super.onDropViewInstance(view)
+  }
+
+  override fun onAfterUpdateTransaction(view: MapboxNavigationView) {
+    super.onAfterUpdateTransaction(view)
+    view.onStart()
+    view.onResume()
   }
 
   override fun getExportedCustomDirectEventTypeConstants(): MutableMap<String, Map<String, String>> {
