@@ -135,9 +135,21 @@ public class MapboxNavigationView: UIView, NavigationViewControllerDelegate {
                 strongSelf.indexedRouteResponse = response
                 let navigationOptions = NavigationOptions(simulationMode: strongSelf.shouldSimulateRoute ? .always : .never)
                 let vc = NavigationViewController(for: response, navigationOptions: navigationOptions)
-
-                vc.showsEndOfRouteFeedback = strongSelf.showsEndOfRouteFeedback
-                StatusView.appearance().isHidden = strongSelf.hideStatusView
+               // new changes from here
+               // Customize the navigation bar (header)
+            let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.backgroundColor = UIColor(hex: "#E84C23") // Header background color
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white] // Header text color
+        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white] // For large titles, if used
+        vc.navigationBar.standardAppearance = navBarAppearance
+        vc.navigationBar.scrollEdgeAppearance = navBarAppearance
+        vc.navigationBar.tintColor = .white
+                //till here
+                // vc.showsEndOfRouteFeedback = strongSelf.showsEndOfRouteFeedback
+                // StatusView.appearance().isHidden = strongSelf.hideStatusView
+                StatusView.appearance().backgroundColor = UIColor(hex: "#E84C23") // Footer background color
+        StatusView.appearance().isHidden = strongSelf.hideStatusView
 
                 NavigationSettings.shared.voiceMuted = strongSelf.mute
                 NavigationSettings.shared.distanceUnit = strongSelf.distanceUnit == "imperial" ? .mile : .kilometer
