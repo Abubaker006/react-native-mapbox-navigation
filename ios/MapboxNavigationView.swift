@@ -117,7 +117,7 @@ public class MapboxNavigationView: UIView, NavigationViewControllerDelegate {
         let destinationWaypoint = Waypoint(coordinate: CLLocationCoordinate2D(latitude: destination[1] as! CLLocationDegrees, longitude: destination[0] as! CLLocationDegrees), name: destinationTitle as String)
         waypointsArray.append(destinationWaypoint)
 
-        let options = NavigationRouteOptions(waypoints: waypointsArray, profileIdentifier: .automobileAvoidingTraffic)
+        let options = NavigationRouteOptions(waypoints: waypointsArray, profileIdentifier: .cycling)
 
         let locale = self.language.replacingOccurrences(of: "-", with: "_")
         options.locale = Locale(identifier: locale)
