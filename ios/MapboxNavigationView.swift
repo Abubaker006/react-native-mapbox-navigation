@@ -148,6 +148,11 @@ public class MapboxNavigationView: UIView, NavigationViewControllerDelegate {
                 StatusView.appearance().backgroundColor = .white // Footer background color
         StatusView.appearance().isHidden = strongSelf.hideStatusView
 
+              let topBanner = navigationOptions.topBanner
+                topBanner?.view.backgroundColor = UIColor(red: 0.91, green: 0.30, blue: 0.14, alpha: 1.00)
+                let bottomBanner = navigationOptions.bottomBanner
+                bottomBanner?.view.backgroundColor = UIColor(red: 0.00, green: 0.00, blue: 0.00, alpha: 0.00)
+
                 NavigationSettings.shared.voiceMuted = strongSelf.mute
                 NavigationSettings.shared.distanceUnit = strongSelf.distanceUnit == "imperial" ? .mile : .kilometer
 
