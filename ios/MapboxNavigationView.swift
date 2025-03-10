@@ -139,7 +139,7 @@ public class MapboxNavigationView: UIView, NavigationViewControllerDelegate {
                // Customize the navigation bar (header)
             let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.backgroundColor = UIColor(hex: "#E84C23") // Header background color
+        navBarAppearance.backgroundColor = UIColor(red: 0.91, green: 0.30, blue: 0.14, alpha: 1.00)
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white] // Header text color
         navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white] // For large titles, if used
         vc.navigationBar.standardAppearance = navBarAppearance
@@ -148,7 +148,7 @@ public class MapboxNavigationView: UIView, NavigationViewControllerDelegate {
                 //till here
                 // vc.showsEndOfRouteFeedback = strongSelf.showsEndOfRouteFeedback
                 // StatusView.appearance().isHidden = strongSelf.hideStatusView
-                StatusView.appearance().backgroundColor = UIColor(hex: "#E84C23") // Footer background color
+                StatusView.appearance().backgroundColor = .white // Footer background color
         StatusView.appearance().isHidden = strongSelf.hideStatusView
 
                 NavigationSettings.shared.voiceMuted = strongSelf.mute
