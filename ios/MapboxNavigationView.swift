@@ -142,9 +142,6 @@ public class MapboxNavigationView: UIView, NavigationViewControllerDelegate {
         navBarAppearance.backgroundColor = UIColor(red: 0.91, green: 0.30, blue: 0.14, alpha: 1.00)
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white] // Header text color
         navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white] // For large titles, if used
-        vc.navigationBar.standardAppearance = navBarAppearance
-        vc.navigationBar.scrollEdgeAppearance = navBarAppearance
-        vc.navigationBar.tintColor = .white
                 //till here
                 // vc.showsEndOfRouteFeedback = strongSelf.showsEndOfRouteFeedback
                 // StatusView.appearance().isHidden = strongSelf.hideStatusView
