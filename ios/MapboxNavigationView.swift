@@ -137,19 +137,23 @@ public class MapboxNavigationView: UIView, NavigationViewControllerDelegate {
                 let vc = NavigationViewController(for: response, navigationOptions: navigationOptions)
                // new changes from here
                // Customize the navigation bar (header)
-            let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.backgroundColor = UIColor(hex: "#E84C23") // Header background color
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white] // Header text color
-        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white] // For large titles, if used
-        vc.navigationBar.standardAppearance = navBarAppearance
-        vc.navigationBar.scrollEdgeAppearance = navBarAppearance
-        vc.navigationBar.tintColor = .white
+                let navBarAppearance = UINavigationBarAppearance()
+                navBarAppearance.configureWithOpaqueBackground()
+                navBarAppearance.backgroundColor =  UIColor(red: 0.91, green: 0.30, blue: 0.14, alpha: 1.00)
+                navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white] // Header text color
+                navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white] // For large titles, if used
+                //vc.navigationBar.standardAppearance = navBarAppearance
+                //vc.navigationBar.scrollEdgeAppearance = navBarAppearance
+                //vc.navigationBar.tintColor = .white
                 //till here
                 // vc.showsEndOfRouteFeedback = strongSelf.showsEndOfRouteFeedback
                 // StatusView.appearance().isHidden = strongSelf.hideStatusView
-                StatusView.appearance().backgroundColor = UIColor(hex: "#E84C23") // Footer background color
-        StatusView.appearance().isHidden = strongSelf.hideStatusView
+                let topBanner = navigationOptions.topBanner
+                topBanner?.view.backgroundColor = UIColor(red: 0.91, green: 0.30, blue: 0.14, alpha: 1.00)
+                let bottomBanner = navigationOptions.bottomBanner
+                bottomBanner?.view.backgroundColor = .white
+                StatusView.appearance().backgroundColor = UIColor(red: 0.91, green: 0.30, blue: 0.14, alpha: 1.00)
+                StatusView.appearance().isHidden = strongSelf.hideStatusView
 
                 NavigationSettings.shared.voiceMuted = strongSelf.mute
                 NavigationSettings.shared.distanceUnit = strongSelf.distanceUnit == "imperial" ? .mile : .kilometer
